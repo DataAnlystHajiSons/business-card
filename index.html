@@ -9,10 +9,11 @@
     
     <style>
         :root {
-            --bg: #0b1120;
-            --accent: #38bdf8;
-            --whatsapp: #22c55e;
-            --glass: rgba(255, 255, 255, 0.05);
+            --primary: #38bdf8;
+            --secondary: #818cf8;
+            --bg-dark: #020617;
+            --card-bg: #ffffff;
+            --glass: rgba(255, 255, 255, 0.03);
             --glass-border: rgba(255, 255, 255, 0.1);
         }
 
@@ -20,35 +21,72 @@
 
         body {
             margin: 0;
+            padding: 0;
             font-family: 'Inter', sans-serif;
-            background: var(--bg);
+            background-color: var(--bg-dark);
             color: white;
-            min-height: 100vh;
+            height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            background: radial-gradient(circle at 0% 0%, #1e293b 0%, #0f172a 100%);
+            overflow: hidden; /* Modern app feel */
         }
 
-        .profile { text-align: center; margin-bottom: 2rem; }
-        .profile h1 { font-size: 1.75rem; margin: 0; font-weight: 700; letter-spacing: -0.02em; }
-        .profile p { color: var(--accent); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.15em; margin-top: 0.5rem; }
+        /* --- VIBRANT ANIMATED BACKGROUND --- */
+        .mesh-container {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            overflow: hidden;
+            background: var(--bg-dark);
+        }
 
-        /* 3D Card */
+        .mesh-ball {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.4;
+            animation: move 20s infinite alternate;
+        }
+
+        .ball1 { width: 400px; height: 400px; background: var(--primary); top: -10%; left: -10%; }
+        .ball2 { width: 350px; height: 350px; background: var(--secondary); bottom: -10%; right: -10%; animation-duration: 25s; }
+        .ball3 { width: 300px; height: 300px; background: #4f46e5; top: 40%; left: 30%; animation-duration: 30s; }
+
+        @keyframes move {
+            from { transform: translate(0, 0) scale(1); }
+            to { transform: translate(50px, 100px) scale(1.2); }
+        }
+
+        /* --- CONTENT WRAPPER --- */
+        .main-content {
+            z-index: 10;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .header { text-align: center; margin-bottom: 2rem; }
+        .header h1 { font-size: 1.8rem; margin: 0; font-weight: 700; letter-spacing: -0.03em; }
+        .header p { color: var(--primary); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.2em; margin-top: 0.5rem; font-weight: 600; }
+
+        /* --- 3D CARD --- */
         .card-perspective {
             width: 90%;
             max-width: 420px;
-            perspective: 1000px;
+            perspective: 1500px;
             aspect-ratio: 1.75 / 1;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
         }
 
         .card-inner {
             position: relative;
             width: 100%;
             height: 100%;
-            transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+            transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
             transform-style: preserve-3d;
             cursor: pointer;
         }
@@ -60,114 +98,98 @@
             width: 100%;
             height: 100%;
             backface-visibility: hidden;
-            border-radius: 12px;
+            border-radius: 15px;
             overflow: hidden;
-            background: #fff;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        /* THE IMAGE FIT FIX */
-        .card-face img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain; /* Shows full image without cropping */
             background: white;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
         }
 
+        .card-face img { width: 100%; height: 100%; object-fit: contain; }
         .card-back { transform: rotateY(180deg); }
 
-        .hint { font-size: 0.75rem; color: #64748b; margin-bottom: 2rem; display: flex; align-items: center; gap: 6px; }
-        .hint-dot { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; animation: pulse 2s infinite; }
+        .hint { font-size: 0.75rem; color: #94a3b8; margin-bottom: 2rem; display: flex; align-items: center; gap: 8px; }
+        .hint span { width: 8px; height: 8px; background: var(--primary); border-radius: 50%; display: inline-block; animation: pulse 2s infinite; }
 
-        /* Actions Grid */
-        .actions {
+        /* --- BUTTONS (GLASSMORPHISM) --- */
+        .button-grid {
             width: 90%;
             max-width: 420px;
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 10px;
+            gap: 12px;
         }
 
         .btn {
+            padding: 1rem;
+            border-radius: 16px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 0.9rem;
-            border-radius: 12px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.85rem;
-            transition: all 0.2s;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
             border: 1px solid var(--glass-border);
             color: white;
             background: var(--glass);
+            backdrop-filter: blur(10px);
             cursor: pointer;
         }
 
-        .btn-primary { grid-column: span 2; background: white; color: var(--bg); border: none; font-weight: 700; }
-        .btn-whatsapp { color: #4ade80; border-color: rgba(34, 197, 94, 0.3); }
-        .btn:active { transform: scale(0.96); opacity: 0.9; }
+        .btn-full { grid-column: span 2; background: white; color: var(--bg-dark); border: none; font-weight: 700; }
+        .btn-wa { color: #4ade80; border-color: rgba(74, 222, 128, 0.2); }
+        .btn-dl { grid-column: span 2; background: rgba(255,255,255,0.05); color: #94a3b8; font-size: 0.8rem; margin-top: 5px; }
 
-        @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(1.2); } }
+        .btn:active { transform: scale(0.95); background: rgba(255,255,255,0.1); }
 
-        /* PRINT / PDF GENERATION STYLES */
+        /* --- ANIMATIONS --- */
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes pulse { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.4); opacity: 0.5; } }
+
+        /* --- PRINT/PDF FIX --- */
         @media print {
-            body { background: white !important; color: black !important; }
-            .actions, .hint, .profile, .mesh-bg { display: none !important; }
-            .card-perspective { 
-                perspective: none !important; 
-                width: 100% !important; 
-                max-width: 500px !important; 
-                aspect-ratio: auto !important;
-                margin: 0 auto;
-            }
-            .card-inner { transform: none !important; display: block !important; }
-            .card-face { 
-                position: relative !important; 
-                display: block !important; 
-                margin-bottom: 20px !important; 
-                box-shadow: none !important;
-                border: 1px solid #eee !important;
-                page-break-inside: avoid;
-            }
+            .mesh-container, .button-grid, .hint, .header { display: none !important; }
+            body { background: white; }
+            .card-perspective { width: 100%; max-width: 500px; display: block; height: auto; perspective: none; }
+            .card-inner { transform: none !important; }
+            .card-face { position: relative !important; margin-bottom: 20px; box-shadow: none; border: 1px solid #ddd; display: block; }
             .card-back { transform: none !important; }
-            .card-face img { width: 100% !important; height: auto !important; }
         }
     </style>
 </head>
 <body>
 
-    <div class="profile">
-        <h1>Farhan Tahir</h1>
-        <p>Director • Haji Sons</p>
+    <div class="mesh-container">
+        <div class="mesh-ball ball1"></div>
+        <div class="mesh-ball ball2"></div>
+        <div class="mesh-ball ball3"></div>
     </div>
 
-    <div class="card-perspective">
-        <div class="card-inner" id="card" onclick="this.classList.toggle('is-flipped')">
-            <div class="card-face"><img src="front.jpg" alt="Front"></div>
-            <div class="card-face card-back"><img src="back.jpg" alt="Back"></div>
+    <div class="main-content">
+        <div class="header">
+            <h1>Farhan Tahir</h1>
+            <p>Director • Haji Sons</p>
+        </div>
+
+        <div class="card-perspective">
+            <div class="card-inner" id="card" onclick="this.classList.toggle('is-flipped')">
+                <div class="card-face"><img src="front.jpg" alt="Front"></div>
+                <div class="card-face card-back"><img src="back.jpg" alt="Back"></div>
+            </div>
+        </div>
+
+        <div class="hint"><span></span> Tap to flip card</div>
+
+        <div class="button-grid">
+            <button id="addContactBtn" class="btn btn-full">Add to Contacts</button>
+            <a href="tel:+923028413374" class="btn">Call Now</a>
+            <a href="https://wa.me/923028413374" class="btn btn-wa">WhatsApp</a>
+            <button onclick="window.print()" class="btn btn-dl">Download Card (PDF)</button>
         </div>
     </div>
 
-    <div class="hint"><div class="hint-dot"></div> Tap card to flip</div>
-
-    <div class="actions">
-        <button id="addContactBtn" class="btn btn-primary">Add to Contacts</button>
-        
-        <a href="tel:+923028413374" class="btn">Call Now</a>
-        <a href="https://wa.me/923028413374" class="btn btn-whatsapp">WhatsApp</a>
-        
-        <!-- NEW DOWNLOAD BUTTON -->
-        <button onclick="window.print()" class="btn" style="grid-column: span 2; margin-top: 5px;">
-            Download Card (PDF)
-        </button>
-    </div>
-
     <script>
-        const contactInfo = {
+        const contact = {
             name: "Farhan Tahir",
             phone: "+923028413374",
             email: "farhan.tahir@hajisonsholding.com",
@@ -176,40 +198,48 @@
             url: "https://www.HajiSons.Pk"
         };
 
-        const vcardText = `BEGIN:VCARD
+        const vCard = `BEGIN:VCARD
 VERSION:3.0
-FN:${contactInfo.name}
+FN:${contact.name}
 N:Tahir;Farhan;;;
-ORG:${contactInfo.org}
-TITLE:${contactInfo.title}
-TEL;TYPE=CELL:${contactInfo.phone}
-EMAIL;TYPE=WORK:${contactInfo.email}
-URL:${contactInfo.url}
+ORG:${contact.org}
+TITLE:${contact.title}
+TEL;TYPE=CELL:${contact.phone}
+EMAIL;TYPE=WORK:${contact.email}
+URL:${contact.url}
 END:VCARD`;
 
         document.getElementById('addContactBtn').addEventListener('click', async () => {
-            const blob = new Blob([vcardText], { type: 'text/vcard;charset=utf-8' });
+            const blob = new Blob([vCard], { type: 'text/vcard;charset=utf-8' });
             const fileName = 'FarhanTahir.vcf';
 
-            // 1. Native Share (Recommended for Mobile)
+            // 1. Try Native Share Menu (Best for Mobile)
             if (navigator.canShare && navigator.canShare({ files: [new File([blob], fileName, { type: 'text/vcard' })] })) {
                 try {
+                    const file = new File([blob], fileName, { type: 'text/vcard' });
                     await navigator.share({
-                        files: [new File([blob], fileName, { type: 'text/vcard' })],
-                        title: contactInfo.name,
-                        text: `Save ${contactInfo.name} to contacts.`
+                        files: [file],
+                        title: contact.name,
+                        text: `Save ${contact.name}'s contact info.`
                     });
                     return;
-                } catch (e) {}
+                } catch (e) { console.log("Share failed"); }
             }
 
-            // 2. Direct Fallback Link
-            const link = document.createElement('a');
-            link.href = window.URL.createObjectURL(blob);
-            link.download = fileName;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
+            // 2. Direct Fallback: Force Download
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = url;
+            a.download = fileName;
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+            
+            // Helpful user prompt for Android
+            setTimeout(() => {
+                alert("Opening contact file. Tap 'Save' to add to your phone.");
+            }, 300);
         });
     </script>
 </body>
