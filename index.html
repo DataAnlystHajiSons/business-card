@@ -1,165 +1,293 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Farhan Tahir – Haji Sons</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --bg-dark: #0f172a;
-      --accent-blue: #00a8e8;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Farhan Tahir | Digital Business Card</title>
+    
+    <!-- Professional Typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #3b82f6;
+            --whatsapp: #25D366;
+            --bg-dark: #0f172a;
+            --glass: rgba(255, 255, 255, 0.08);
+            --card-ratio: 1.75 / 1;
+        }
 
-    * { box-sizing: border-box; }
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
 
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Inter', sans-serif;
-      background-color: var(--bg-dark);
-      color: white;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-    }
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-dark);
+            color: #ffffff;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden; /* Prevent bounce on mobile */
+        }
 
-    .header {
-      text-align: center;
-      margin-bottom: 20px;
-    }
+        /* Animated Mesh Background */
+        .mesh-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            background: radial-gradient(at 0% 0%, hsla(220,100%,15%,1) 0, transparent 50%), 
+                        radial-gradient(at 100% 0%, hsla(200,100%,15%,1) 0, transparent 50%), 
+                        radial-gradient(at 100% 100%, hsla(215,100%,10%,1) 0, transparent 50%), 
+                        radial-gradient(at 0% 100%, hsla(210,100%,15%,1) 0, transparent 50%);
+            background-color: var(--bg-dark);
+        }
 
-    h1 { font-size: 1.6rem; margin: 0; }
-    .subtitle {
-      color: var(--accent-blue);
-      font-size: 0.8rem;
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      margin-top: 5px;
-    }
+        /* Top Branding */
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            animation: fadeInDown 0.8s ease-out;
+        }
 
-    /* THE FRAME FIX */
-    .card-container {
-      width: 92%; 
-      max-width: 450px;
-      perspective: 1000px;
-      /* Standard Business Card Aspect Ratio */
-      aspect-ratio: 1.75 / 1; 
-    }
+        .header h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin: 0;
+            letter-spacing: -0.02em;
+        }
 
-    .card-inner {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-      transform-style: preserve-3d;
-      cursor: pointer;
-    }
+        .header p {
+            font-size: 0.85rem;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            margin: 8px 0 0;
+            font-weight: 400;
+        }
 
-    .is-flipped { transform: rotateY(180deg); }
+        /* The 3D Card */
+        .card-perspective {
+            width: 90%;
+            max-width: 440px;
+            perspective: 1200px;
+            aspect-ratio: var(--card-ratio);
+            animation: fadeInUp 0.8s ease-out;
+        }
 
-    .card-front, .card-back {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      backface-visibility: hidden;
-      border-radius: 8px; /* Sharper corners to match Haji Sons style */
-      box-shadow: 0 20px 40px rgba(0,0,0,0.6);
-      background: #ffffff; /* Matches your card color */
-      overflow: hidden;
-    }
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform-style: preserve-3d;
+            cursor: pointer;
+        }
 
-    .card-back { transform: rotateY(180deg); }
+        .card-inner.is-flipped {
+            transform: rotateY(180deg);
+        }
 
-    /* Ensures image fills the frame without gaps */
-    .card-inner img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover; 
-      display: block;
-    }
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 12px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+            overflow: hidden;
+            background: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
-    .hint {
-      margin-top: 15px;
-      font-size: 0.8rem;
-      color: #94a3b8;
-      background: rgba(255,255,255,0.05);
-      padding: 5px 15px;
-      border-radius: 20px;
-    }
+        .card-face img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Ensures your card fill edges perfectly */
+        }
 
-    .button-stack {
-      width: 92%;
-      max-width: 450px;
-      margin-top: 25px;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-    }
+        .card-back {
+            transform: rotateY(180deg);
+        }
 
-    .btn {
-      padding: 14px;
-      border-radius: 10px;
-      text-decoration: none;
-      font-weight: 700;
-      font-size: 0.9rem;
-      text-align: center;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: 0.2s;
-    }
+        /* Action Buttons */
+        .action-container {
+            width: 90%;
+            max-width: 440px;
+            margin-top: 35px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            animation: fadeInUp 1s ease-out;
+        }
 
-    .btn-save {
-      grid-column: span 2;
-      background: #ffffff;
-      color: #000;
-    }
+        .btn {
+            padding: 16px;
+            border-radius: 14px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.2s ease;
+            border: none;
+            cursor: pointer;
+            color: white;
+        }
 
-    .btn-call { background: var(--accent-blue); color: white; }
-    .btn-wa { background: #25D366; color: white; }
+        .btn-main {
+            grid-column: span 2;
+            background: #ffffff;
+            color: var(--bg-dark);
+            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
+        }
 
-    .btn:active { transform: scale(0.97); }
+        .btn-sec {
+            background: var(--glass);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
 
-  </style>
+        .btn-wa {
+            background: rgba(37, 211, 102, 0.15);
+            border: 1px solid rgba(37, 211, 102, 0.3);
+            color: #25D366;
+        }
+
+        .btn:active {
+            transform: scale(0.96);
+            opacity: 0.8;
+        }
+
+        /* Subtle Hints */
+        .hint {
+            margin-top: 20px;
+            font-size: 0.75rem;
+            color: #64748b;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .hint span {
+            width: 6px; height: 6px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: inline-block;
+            animation: pulse 1.5s infinite;
+        }
+
+        /* Animations */
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.5); opacity: 0.5; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
 </head>
 <body>
 
-  <div class="header">
-    <h1>Farhan Tahir</h1>
-    <div class="subtitle">Director – Haji Sons</div>
-  </div>
+    <div class="mesh-bg"></div>
 
-  <div class="card-container">
-    <div class="card-inner" id="card" onclick="flipCard()">
-      <!-- FRONT SIDE -->
-      <div class="card-front">
-        <img src="front.jpg" alt="Front Side">
-      </div>
-      <!-- BACK SIDE -->
-      <div class="card-back">
-        <img src="back.jpg" alt="Back Side">
-      </div>
+    <div class="header">
+        <h1>Farhan Tahir</h1>
+        <p>Director | Haji Sons</p>
     </div>
-  </div>
 
-  <div class="hint">Tap card to flip</div>
+    <div class="card-perspective">
+        <div class="card-inner" id="card" onclick="flipCard()">
+            <div class="card-face card-front">
+                <img src="front.jpg" alt="Farhan Tahir Card Front">
+            </div>
+            <div class="card-face card-back">
+                <img src="back.jpg" alt="Farhan Tahir Card Back">
+            </div>
+        </div>
+    </div>
 
-  <div class="button-stack">
-    <!-- Save Contact Link with your details from the card -->
-    <a href="data:text/vcard;charset=utf-8,BEGIN:VCARD%0AVERSION:3.0%0AN:Tahir;Farhan;;;%0AFN:Farhan Tahir%0AORG:Haji Sons%0ATITLE:Director%0ATEL;TYPE=CELL:+923028413374%0AEMAIL:farhan.tahir@hajisonsholding.com%0AURL:www.HajiSons.Pk%0AEND:VCARD" class="btn btn-save">Add to Contacts</a>
-    
-    <a href="tel:+923028413374" class="btn btn-call">Call Now</a>
-    <a href="https://wa.me/923028413374" class="btn btn-wa">WhatsApp</a>
-  </div>
+    <div class="hint"><span></span> Tap card to flip</div>
 
-  <script>
-    function flipCard() {
-      document.getElementById('card').classList.toggle('is-flipped');
-    }
-  </script>
+    <div class="action-container">
+        <!-- Main Action -->
+        <button onclick="saveContact()" class="btn btn-main">
+            Add to Contacts
+        </button>
 
+        <!-- Secondary Actions -->
+        <a href="tel:+923028413374" class="btn btn-sec">
+            Call Office
+        </a>
+        <a href="https://wa.me/923028413374" class="btn btn-wa">
+            WhatsApp
+        </a>
+    </div>
+
+    <script>
+        // 1. Flip Control
+        function flipCard() {
+            document.getElementById('card').classList.toggle('is-flipped');
+        }
+
+        // 2. Advanced Contact Saving
+        function saveContact() {
+            const contactData = {
+                name: "Farhan Tahir",
+                phone: "+923028413374",
+                email: "farhan.tahir@hajisonsholding.com",
+                org: "Haji Sons",
+                title: "Director",
+                url: "https://www.HajiSons.Pk"
+            };
+
+            const vCard = `BEGIN:VCARD
+VERSION:3.0
+FN:${contactData.name}
+ORG:${contactData.org}
+TITLE:${contactData.title}
+TEL;TYPE=CELL:${contactData.phone}
+EMAIL:${contactData.email}
+URL:${contactData.url}
+END:VCARD`;
+
+            const blob = new Blob([vCard], { type: "text/vcard;charset=utf-8" });
+            const file = new File([blob], "FarhanTahir.vcf", { type: "text/vcard" });
+
+            // Using the Web Share API for native contact handling
+            if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                navigator.share({
+                    files: [file],
+                    title: contactData.name,
+                    text: `Save ${contactData.name} to your phone.`
+                }).catch((err) => {
+                    console.log("Share cancelled or failed", err);
+                });
+            } else {
+                // Fallback for desktop/older mobile browsers
+                const link = document.createElement('a');
+                link.href = window.URL.createObjectURL(blob);
+                link.download = "FarhanTahir.vcf";
+                link.click();
+            }
+        }
+    </script>
 </body>
 </html>
