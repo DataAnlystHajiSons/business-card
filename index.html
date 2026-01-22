@@ -3,95 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Farhan Tahir | Digital Business Card</title>
+    <title>Farhan Tahir | Haji Sons</title>
     
-    <!-- Professional Typography -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --primary: #3b82f6;
-            --whatsapp: #25D366;
-            --bg-dark: #0f172a;
-            --glass: rgba(255, 255, 255, 0.08);
-            --card-ratio: 1.75 / 1;
+            --bg: #0b1120;
+            --accent: #38bdf8;
+            --whatsapp: #22c55e;
+            --glass: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
         }
 
-        * {
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-        }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
         body {
             margin: 0;
-            padding: 0;
             font-family: 'Inter', sans-serif;
-            background: var(--bg-dark);
-            color: #ffffff;
-            height: 100vh;
+            background: var(--bg);
+            color: white;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            overflow: hidden; /* Prevent bounce on mobile */
+            background: radial-gradient(circle at 0% 0%, #1e293b 0%, #0f172a 100%);
         }
 
-        /* Animated Mesh Background */
-        .mesh-bg {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -1;
-            background: radial-gradient(at 0% 0%, hsla(220,100%,15%,1) 0, transparent 50%), 
-                        radial-gradient(at 100% 0%, hsla(200,100%,15%,1) 0, transparent 50%), 
-                        radial-gradient(at 100% 100%, hsla(215,100%,10%,1) 0, transparent 50%), 
-                        radial-gradient(at 0% 100%, hsla(210,100%,15%,1) 0, transparent 50%);
-            background-color: var(--bg-dark);
-        }
+        .profile { text-align: center; margin-bottom: 2rem; }
+        .profile h1 { font-size: 1.75rem; margin: 0; font-weight: 700; letter-spacing: -0.02em; }
+        .profile p { color: var(--accent); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.15em; margin-top: 0.5rem; }
 
-        /* Top Branding */
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-            animation: fadeInDown 0.8s ease-out;
-        }
-
-        .header h1 {
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin: 0;
-            letter-spacing: -0.02em;
-        }
-
-        .header p {
-            font-size: 0.85rem;
-            color: #94a3b8;
-            text-transform: uppercase;
-            letter-spacing: 0.15em;
-            margin: 8px 0 0;
-            font-weight: 400;
-        }
-
-        /* The 3D Card */
+        /* 3D Card */
         .card-perspective {
             width: 90%;
-            max-width: 440px;
-            perspective: 1200px;
-            aspect-ratio: var(--card-ratio);
-            animation: fadeInUp 0.8s ease-out;
+            max-width: 420px;
+            perspective: 1000px;
+            aspect-ratio: 1.75 / 1;
+            margin-bottom: 1.5rem;
         }
 
         .card-inner {
             position: relative;
             width: 100%;
             height: 100%;
-            transition: transform 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
             transform-style: preserve-3d;
             cursor: pointer;
         }
 
-        .card-inner.is-flipped {
-            transform: rotateY(180deg);
-        }
+        .card-inner.is-flipped { transform: rotateY(180deg); }
 
         .card-face {
             position: absolute;
@@ -99,195 +61,156 @@
             height: 100%;
             backface-visibility: hidden;
             border-radius: 12px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
             overflow: hidden;
-            background: #ffffff;
+            background: #fff;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
+        /* THE IMAGE FIT FIX */
         .card-face img {
             width: 100%;
             height: 100%;
-            object-fit: cover; /* Ensures your card fill edges perfectly */
+            object-fit: contain; /* Shows full image without cropping */
+            background: white;
         }
 
-        .card-back {
-            transform: rotateY(180deg);
-        }
+        .card-back { transform: rotateY(180deg); }
 
-        /* Action Buttons */
-        .action-container {
+        .hint { font-size: 0.75rem; color: #64748b; margin-bottom: 2rem; display: flex; align-items: center; gap: 6px; }
+        .hint-dot { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; animation: pulse 2s infinite; }
+
+        /* Actions Grid */
+        .actions {
             width: 90%;
-            max-width: 440px;
-            margin-top: 35px;
+            max-width: 420px;
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            animation: fadeInUp 1s ease-out;
+            gap: 10px;
         }
 
         .btn {
-            padding: 16px;
-            border-radius: 14px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.95rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
-            transition: all 0.2s ease;
-            border: none;
-            cursor: pointer;
+            padding: 0.9rem;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+            border: 1px solid var(--glass-border);
             color: white;
-        }
-
-        .btn-main {
-            grid-column: span 2;
-            background: #ffffff;
-            color: var(--bg-dark);
-            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
-        }
-
-        .btn-sec {
             background: var(--glass);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
+            cursor: pointer;
         }
 
-        .btn-wa {
-            background: rgba(37, 211, 102, 0.15);
-            border: 1px solid rgba(37, 211, 102, 0.3);
-            color: #25D366;
-        }
+        .btn-primary { grid-column: span 2; background: white; color: var(--bg); border: none; font-weight: 700; }
+        .btn-whatsapp { color: #4ade80; border-color: rgba(34, 197, 94, 0.3); }
+        .btn:active { transform: scale(0.96); opacity: 0.9; }
 
-        .btn:active {
-            transform: scale(0.96);
-            opacity: 0.8;
-        }
+        @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(1.2); } }
 
-        /* Subtle Hints */
-        .hint {
-            margin-top: 20px;
-            font-size: 0.75rem;
-            color: #64748b;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .hint span {
-            width: 6px; height: 6px;
-            background: var(--primary);
-            border-radius: 50%;
-            display: inline-block;
-            animation: pulse 1.5s infinite;
-        }
-
-        /* Animations */
-        @keyframes pulse {
-            0% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.5); opacity: 0.5; }
-            100% { transform: scale(1); opacity: 1; }
-        }
-
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
+        /* PRINT / PDF GENERATION STYLES */
+        @media print {
+            body { background: white !important; color: black !important; }
+            .actions, .hint, .profile, .mesh-bg { display: none !important; }
+            .card-perspective { 
+                perspective: none !important; 
+                width: 100% !important; 
+                max-width: 500px !important; 
+                aspect-ratio: auto !important;
+                margin: 0 auto;
+            }
+            .card-inner { transform: none !important; display: block !important; }
+            .card-face { 
+                position: relative !important; 
+                display: block !important; 
+                margin-bottom: 20px !important; 
+                box-shadow: none !important;
+                border: 1px solid #eee !important;
+                page-break-inside: avoid;
+            }
+            .card-back { transform: none !important; }
+            .card-face img { width: 100% !important; height: auto !important; }
         }
     </style>
 </head>
 <body>
 
-    <div class="mesh-bg"></div>
-
-    <div class="header">
+    <div class="profile">
         <h1>Farhan Tahir</h1>
-        <p>Director | Haji Sons</p>
+        <p>Director • Haji Sons</p>
     </div>
 
     <div class="card-perspective">
-        <div class="card-inner" id="card" onclick="flipCard()">
-            <div class="card-face card-front">
-                <img src="front.jpg" alt="Farhan Tahir Card Front">
-            </div>
-            <div class="card-face card-back">
-                <img src="back.jpg" alt="Farhan Tahir Card Back">
-            </div>
+        <div class="card-inner" id="card" onclick="this.classList.toggle('is-flipped')">
+            <div class="card-face"><img src="front.jpg" alt="Front"></div>
+            <div class="card-face card-back"><img src="back.jpg" alt="Back"></div>
         </div>
     </div>
 
-    <div class="hint"><span></span> Tap card to flip</div>
+    <div class="hint"><div class="hint-dot"></div> Tap card to flip</div>
 
-    <div class="action-container">
-        <!-- Main Action -->
-        <button onclick="saveContact()" class="btn btn-main">
-            Add to Contacts
+    <div class="actions">
+        <button id="addContactBtn" class="btn btn-primary">Add to Contacts</button>
+        
+        <a href="tel:+923028413374" class="btn">Call Now</a>
+        <a href="https://wa.me/923028413374" class="btn btn-whatsapp">WhatsApp</a>
+        
+        <!-- NEW DOWNLOAD BUTTON -->
+        <button onclick="window.print()" class="btn" style="grid-column: span 2; margin-top: 5px;">
+            Download Card (PDF)
         </button>
-
-        <!-- Secondary Actions -->
-        <a href="tel:+923028413374" class="btn btn-sec">
-            Call Office
-        </a>
-        <a href="https://wa.me/923028413374" class="btn btn-wa">
-            WhatsApp
-        </a>
     </div>
 
     <script>
-        // 1. Flip Control
-        function flipCard() {
-            document.getElementById('card').classList.toggle('is-flipped');
-        }
+        const contactInfo = {
+            name: "Farhan Tahir",
+            phone: "+923028413374",
+            email: "farhan.tahir@hajisonsholding.com",
+            org: "Haji Sons",
+            title: "Director",
+            url: "https://www.HajiSons.Pk"
+        };
 
-        // 2. Advanced Contact Saving
-        function saveContact() {
-            const contactData = {
-                name: "Farhan Tahir",
-                phone: "+923028413374",
-                email: "farhan.tahir@hajisonsholding.com",
-                org: "Haji Sons",
-                title: "Director",
-                url: "https://www.HajiSons.Pk"
-            };
-
-            const vCard = `BEGIN:VCARD
+        const vcardText = `BEGIN:VCARD
 VERSION:3.0
-FN:${contactData.name}
-ORG:${contactData.org}
-TITLE:${contactData.title}
-TEL;TYPE=CELL:${contactData.phone}
-EMAIL:${contactData.email}
-URL:${contactData.url}
+FN:${contactInfo.name}
+N:Tahir;Farhan;;;
+ORG:${contactInfo.org}
+TITLE:${contactInfo.title}
+TEL;TYPE=CELL:${contactInfo.phone}
+EMAIL;TYPE=WORK:${contactInfo.email}
+URL:${contactInfo.url}
 END:VCARD`;
 
-            const blob = new Blob([vCard], { type: "text/vcard;charset=utf-8" });
-            const file = new File([blob], "FarhanTahir.vcf", { type: "text/vcard" });
+        document.getElementById('addContactBtn').addEventListener('click', async () => {
+            const blob = new Blob([vcardText], { type: 'text/vcard;charset=utf-8' });
+            const fileName = 'FarhanTahir.vcf';
 
-            // Using the Web Share API for native contact handling
-            if (navigator.canShare && navigator.canShare({ files: [file] })) {
-                navigator.share({
-                    files: [file],
-                    title: contactData.name,
-                    text: `Save ${contactData.name} to your phone.`
-                }).catch((err) => {
-                    console.log("Share cancelled or failed", err);
-                });
-            } else {
-                // Fallback for desktop/older mobile browsers
-                const link = document.createElement('a');
-                link.href = window.URL.createObjectURL(blob);
-                link.download = "FarhanTahir.vcf";
-                link.click();
+            // 1. Native Share (Recommended for Mobile)
+            if (navigator.canShare && navigator.canShare({ files: [new File([blob], fileName, { type: 'text/vcard' })] })) {
+                try {
+                    await navigator.share({
+                        files: [new File([blob], fileName, { type: 'text/vcard' })],
+                        title: contactInfo.name,
+                        text: `Save ${contactInfo.name} to contacts.`
+                    });
+                    return;
+                } catch (e) {}
             }
-        }
+
+            // 2. Direct Fallback Link
+            const link = document.createElement('a');
+            link.href = window.URL.createObjectURL(blob);
+            link.download = fileName;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        });
     </script>
 </body>
 </html>
