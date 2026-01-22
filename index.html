@@ -3,13 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Farhan Tahir – Digital Business Card</title>
+  <title>Farhan Tahir – Haji Sons</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg-color: #0f172a;
+      --bg-dark: #0f172a;
       --accent-blue: #00a8e8;
-      --card-shadow: 0 15px 35px rgba(0,0,0,0.5);
     }
 
     * { box-sizing: border-box; }
@@ -18,83 +17,67 @@
       margin: 0;
       padding: 0;
       font-family: 'Inter', sans-serif;
-      background-color: var(--bg-color);
+      background-color: var(--bg-dark);
       color: white;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       min-height: 100vh;
-      overflow-x: hidden;
     }
 
-    /* Header section */
     .header {
       text-align: center;
-      margin-bottom: 25px;
-      padding: 0 20px;
+      margin-bottom: 20px;
     }
 
-    h1 {
-      font-size: 1.6rem;
-      margin: 0;
-      letter-spacing: 0.5px;
-    }
-
+    h1 { font-size: 1.6rem; margin: 0; }
     .subtitle {
       color: var(--accent-blue);
       font-size: 0.8rem;
       text-transform: uppercase;
       letter-spacing: 1.5px;
-      margin-top: 8px;
-      opacity: 0.9;
+      margin-top: 5px;
     }
 
-    /* The Card Container */
+    /* THE FRAME FIX */
     .card-container {
-      width: 92%; /* Optimized for mobile width */
-      max-width: 400px;
+      width: 92%; 
+      max-width: 450px;
       perspective: 1000px;
-      aspect-ratio: 1.58 / 1; /* Standard business card ratio */
+      /* Standard Business Card Aspect Ratio */
+      aspect-ratio: 1.75 / 1; 
     }
 
     .card-inner {
       position: relative;
       width: 100%;
       height: 100%;
-      text-align: center;
       transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
       transform-style: preserve-3d;
       cursor: pointer;
     }
 
-    .is-flipped {
-      transform: rotateY(180deg);
-    }
+    .is-flipped { transform: rotateY(180deg); }
 
     .card-front, .card-back {
       position: absolute;
       width: 100%;
       height: 100%;
       backface-visibility: hidden;
-      border-radius: 12px;
-      box-shadow: var(--card-shadow);
+      border-radius: 8px; /* Sharper corners to match Haji Sons style */
+      box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+      background: #ffffff; /* Matches your card color */
       overflow: hidden;
-      background: #1e293b; /* Fallback color */
-      display: flex;
-      align-items: center;
-      justify-content: center;
     }
 
-    .card-back {
-      transform: rotateY(180deg);
-    }
+    .card-back { transform: rotateY(180deg); }
 
-    /* THE FIX: Show full image without cropping */
+    /* Ensures image fills the frame without gaps */
     .card-inner img {
       width: 100%;
       height: 100%;
-      object-fit: contain; /* Shows full card edge-to-edge */
+      object-fit: cover; 
       display: block;
     }
 
@@ -103,17 +86,16 @@
       font-size: 0.8rem;
       color: #94a3b8;
       background: rgba(255,255,255,0.05);
-      padding: 4px 12px;
+      padding: 5px 15px;
       border-radius: 20px;
     }
 
-    /* Mobile-friendly Buttons */
     .button-stack {
       width: 92%;
-      max-width: 400px;
-      margin-top: 30px;
+      max-width: 450px;
+      margin-top: 25px;
       display: grid;
-      grid-template-columns: 1fr 1fr; /* Two columns */
+      grid-template-columns: 1fr 1fr;
       gap: 12px;
     }
 
@@ -124,31 +106,22 @@
       font-weight: 700;
       font-size: 0.9rem;
       text-align: center;
-      transition: 0.2s;
       display: flex;
       align-items: center;
       justify-content: center;
+      transition: 0.2s;
     }
 
     .btn-save {
-      grid-column: span 2; /* Full width for the most important button */
+      grid-column: span 2;
       background: #ffffff;
       color: #000;
     }
 
-    .btn-call {
-      background: var(--accent-blue);
-      color: white;
-    }
+    .btn-call { background: var(--accent-blue); color: white; }
+    .btn-wa { background: #25D366; color: white; }
 
-    .btn-wa {
-      background: #25D366;
-      color: white;
-    }
-
-    .btn:active {
-      transform: scale(0.96);
-    }
+    .btn:active { transform: scale(0.97); }
 
   </style>
 </head>
@@ -156,14 +129,16 @@
 
   <div class="header">
     <h1>Farhan Tahir</h1>
-    <div class="subtitle">Director / Executive Committee Member</div>
+    <div class="subtitle">Director – Haji Sons</div>
   </div>
 
   <div class="card-container">
     <div class="card-inner" id="card" onclick="flipCard()">
+      <!-- FRONT SIDE -->
       <div class="card-front">
         <img src="front.jpg" alt="Front Side">
       </div>
+      <!-- BACK SIDE -->
       <div class="card-back">
         <img src="back.jpg" alt="Back Side">
       </div>
@@ -173,8 +148,8 @@
   <div class="hint">Tap card to flip</div>
 
   <div class="button-stack">
-    <!-- IMPORTANT: Update these with your real details -->
-    <a href="data:text/vcard;charset=utf-8,BEGIN:VCARD%0AVERSION:3.0%0AN:Tahir;Farhan;;;%0AFN:Farhan Tahir%0AORG:Company Name;%0ATEL;TYPE=CELL:+92000000000%0AEND:VCARD" class="btn btn-save">Save Contact to Phone</a>
+    <!-- Save Contact Link with your details from the card -->
+    <a href="data:text/vcard;charset=utf-8,BEGIN:VCARD%0AVERSION:3.0%0AN:Tahir;Farhan;;;%0AFN:Farhan Tahir%0AORG:Haji Sons%0ATITLE:Director%0ATEL;TYPE=CELL:+923028413374%0AEMAIL:farhan.tahir@hajisonsholding.com%0AURL:www.HajiSons.Pk%0AEND:VCARD" class="btn btn-save">Add to Contacts</a>
     
     <a href="tel:+923028413374" class="btn btn-call">Call Now</a>
     <a href="https://wa.me/923028413374" class="btn btn-wa">WhatsApp</a>
@@ -188,4 +163,3 @@
 
 </body>
 </html>
-
